@@ -1,0 +1,52 @@
+Arguments: 
+  /home/ignisgravitas/.config/nvm/versions/node/v12.16.3/bin/node /usr/share/yarn/bin/yarn.js install --offline
+
+PATH: 
+  /home/ignisgravitas/.config/nvm/versions/node/v12.16.3/bin:/home/ignisgravitas/.npm-global/bin:/home/ignisgravitas/.rvm/gems/ruby-2.6.6/bin:/home/ignisgravitas/.rvm/gems/ruby-2.6.6@global/bin:/usr/share/rvm/rubies/ruby-2.6.6/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin:/usr/lib/go/bin:/home/ignisgravitas/go/bin:/usr/share/rvm/bin:/home/ignisgravitas/Android/Sdk/emulator:/home/ignisgravitas/Android/Sdk/tools:/home/ignisgravitas/Android/Sdk/tools/bin:/home/ignisgravitas/Android/Sdk/platform-tools:/home/ignisgravitas/.npm-global/bin
+
+Yarn version: 
+  1.21.1
+
+Node version: 
+  12.16.3
+
+Platform: 
+  linux x64
+
+Trace: 
+  Invariant Violation: There should only be one folder in a package cache (got  in /home/ignisgravitas/.cache/yarn/v6/npm-expo-error-recovery-1.4.0-2a05c21b056fb7d68af2fc30032858d19747302a-integrity/node_modules)
+      at invariant (/usr/share/yarn/lib/cli.js:2314:15)
+      at /usr/share/yarn/lib/cli.js:60673:7
+      at Generator.next (<anonymous>)
+      at step (/usr/share/yarn/lib/cli.js:310:30)
+      at /usr/share/yarn/lib/cli.js:321:13
+
+npm manifest: 
+  {
+    "main": "node_modules/expo/AppEntry.js",
+    "scripts": {
+      "start": "expo start",
+      "android": "expo start --android",
+      "ios": "expo start --ios",
+      "web": "expo start --web",
+      "eject": "expo eject"
+    },
+    "dependencies": {
+      "expo": "~42.0.1",
+      "expo-status-bar": "~1.0.4",
+      "react": "16.13.1",
+      "react-dom": "16.13.1",
+      "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
+      "react-native-web": "~0.13.12"
+    },
+    "devDependencies": {
+      "@babel/core": "^7.9.0"
+    },
+    "private": true
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
