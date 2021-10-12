@@ -1,20 +1,7 @@
-import React from 'react';
-import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, View, FlatList, StyleSheet, Text, StatusBar, TouchableOpacity, ScrollView } from 'react-native';
 
-const DATA = [
-  {
-    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
-    title: 'First Item',
-  },
-  {
-    id: '3ac68afc-c605-48d3-a4f8-fbd91aa97f63',
-    title: 'Second Item',
-  },
-  {
-    id: '58694a0f-3da1-471f-bd96-145571e29d72',
-    title: 'Third Item',
-  },
-];
+const url='https://jsonplaceholder.typicode.com/users';
 
 const Item = ({ title }) => (
   <View style={styles.item}>
@@ -23,30 +10,61 @@ const Item = ({ title }) => (
 );
 
 export default function Users(props) {
+
+  const [user, setUser]=useState([]);
+
+  const getName=async() =>{
+    const response=await fetch(url);
+    const users= await response.json();
+    let Aux=[];
+    users.map((item) => {
+      let aux={
+        id:item.id,
+        title: item.name
+      };
+      Aux.push(aux);
+    });
+    setUser(Aux);
+  };
+
+  useEffect(()=>{
+    getName();
+  },[]);
+
+  console.log('users', user);
   const renderItem = ({ item }) => <Item title={item.title} />;
 
   return (
-    <View><SafeAreaView style={styles.container}>
-    <FlatList data={DATA} renderItem={renderItem} keyExtractor={item => item.id} />
-  </SafeAreaView></View>
+  <View style={styles.container}><TouchableOpacity style={{
+      alignContent:'center',
+      backgroundColor: '#418998',
+      padding: 28,
+      marginHorizontal: 16,
+      borderRadius: 20,
+      }}onPress={() => {props.setUserState(false)}}><Text style={styles.title}>Regresar</Text></TouchableOpacity>
+    {user.map(item => 
+      <View style={styles.container}><TouchableOpacity style={styles.item}><Text style={styles.title}>{item.title}</Text></TouchableOpacity></View>)}
     
+    </View>    
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 0.7,
     alignContent:'center',
-    alignItems:'center',
-    flex: 1,
+    padding: 20,
     marginTop: StatusBar.currentHeight || 0,
   },
   item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
+    backgroundColor: '#418998',
+    padding: 30,
     marginVertical: 8,
     marginHorizontal: 16,
+    borderRadius: 20,
   },
   title: {
-    fontSize: 32,
+    textAlign:'center',
+    fontSize: 20,
   },
 });

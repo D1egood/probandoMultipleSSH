@@ -1,20 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { View, StyleSheet, Text, TouchableOpacity, Alert, ImageBackground,SafeAreaView, Dimensions, FlatList } from 'react-native';
+import React, { useState, useEffect, Component } from 'react';
+import { View, StyleSheet, Text, TouchableOpacity, Alert, ImageBackground, SafeAreaView, Dimensions, FlatList } from 'react-native';
 import Camera from "./Camera";
 import Located from './Location'
 import Users from './Users'
 import * as Notifications from 'expo-notifications';
+import Notificacion from './Notificacion';
 
 
-export async function allowsNotificationsAsync() {
-  const settings = await Notifications.getPermissionsAsync();
-  return (
-    settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
-  );
-}
+
 
 const hp = Dimensions.get('window').height;
 const wp = Dimensions.get('window').width;
+const Message2 =() =>{
+  Alert.alert("Notificaciones activadas","Exitosamente!");
+}
+
 
 
 
@@ -24,9 +24,27 @@ export default function App() {
   const [location, setLocation] = useState(false);
   const [userState, setUserState] = useState(false);
   const [photo, setPhoto] = useState({});
+  const [notificacion,setNotificacion] = useState(false);
+ 
+  const allowsNotificationsAsync= async() => {
+    const settings = await Notifications.getPermissionsAsync();
+    console.log("settings",settings); 
+    Message()
+    return (
+      settings.granted || settings.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL
+    );
+  }
+  const Message =() =>{
+    Alert.alert("Desea habilitar las notificaciones?","SI o NO?",[
+      {text: "si", onPress:()=>
+        Message2()
+      },
+      {text: "no", onPress:()=>{setNotificacion(false)}}
+    ])
+  }
 
   useEffect(() => {
-
+   
   }, [camera, location, userState]);
 
   const CameraPreview = ({ photo }) => {
@@ -51,15 +69,15 @@ export default function App() {
 
   return (
 
-    <SafeAreaView>
+    <View >
 
-      {camera === false && userState === false && (
+      {camera === false && userState === false && location === false && notificacion ==false&& (
         <View style={styles.container}>
           <View style={styles.head3}></View>
           <View style={styles.head}>
             <TouchableOpacity style={styles.button} title='Camera' onPress={() => {
               setCamera(true);
-            }} ><Text style={styles.text}>Camera</Text></TouchableOpacity>
+            }} ><Text style={styles.text}>Camara</Text></TouchableOpacity>
 
 
           </View>
@@ -68,12 +86,13 @@ export default function App() {
             <TouchableOpacity style={styles.button} title='Ubicacion' onPress={() => {
               setLocation(true);
             }} ><Text style={styles.text}>Ubicacion</Text></TouchableOpacity>
-            {location === true ? (<Located />) : (<></>)}
+
           </View>
 
           <View style={styles.head}>
             <TouchableOpacity style={styles.button} title='Notificaciones' onPress={() => {
-              allowsNotificationsAsync();
+           allowsNotificationsAsync();
+           setNotificacion(true);
             }} ><Text style={styles.text} >Notificaciones</Text></TouchableOpacity>
 
           </View>
@@ -81,7 +100,7 @@ export default function App() {
 
             <TouchableOpacity style={styles.button} title='gitHub users' onPress={() => {
               setUserState(true);
-            }} ><Text style={styles.text}>Api name users</Text></TouchableOpacity>
+            }} ><Text style={styles.text}>Api nombres</Text></TouchableOpacity>
 
           </View>
           <View style={styles.head2}>
@@ -92,15 +111,20 @@ export default function App() {
         </View>
       )}
       {(camera === true && (<Camera setCamera={setCamera} setPhoto={setPhoto} />))}
-      {userState === true && (<Users setUserState={setUserState} userState={userState}/>)}
-    </SafeAreaView>
+      {userState === true && (<Users setUserState={setUserState} userState={userState} />)}
+      {location === true && (<Located setLocation={setLocation} location={location} />)}
+      {notificacion === true &&(<Notificacion setNotificacion={setNotificacion} notificacion={notificacion}/>)}
+    </View>
   );
 
 
 }
 
 const styles = StyleSheet.create({
+  container1: { flex: 0.2, },
+
   container: {
+    height: '100%',
     width: "100%",
     flex: 1,
 
@@ -125,7 +149,8 @@ const styles = StyleSheet.create({
 
   },
   head2: {
-    flex: 0.1,
+    flex: 1,
+    marginVertical: 200,
     resizeMode: 'contain',
     justifyContent: 'center',
     alignItems: 'center',
